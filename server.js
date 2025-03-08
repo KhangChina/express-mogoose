@@ -16,7 +16,7 @@ async function bootstrap(argument) {
 
   //Step3: Router
   app.get("/", (req, res) => {
-    res.send("Hello Express + MongoDB API");
+    res.send("Welcome API");
   });
 
   app.use("/api/v1/authentication", authenticationController);
@@ -26,7 +26,8 @@ async function bootstrap(argument) {
   //Step4: Start server
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
-    console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
+    console.log(`🚀 Server env ${argument}`);
+    console.log(`🚀 Server run http://localhost:${PORT}`);
   });
   
 }

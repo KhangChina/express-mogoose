@@ -8,16 +8,17 @@ function generateAccessToken(user) {
 }
 
 function generateRefreshToken(user) {
-  return jwt.sign(
-    { id: user._id },
-    process.env.JWT_REFRESH_SECRET,
-    {
-      expiresIn: "7d",
-    }
-  );
+  return jwt.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: "7d",
+  });
+}
+
+function verifyRefreshToken(refreshToken) {
+ return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 }
 
 module.exports = {
-    generateAccessToken,
-    generateRefreshToken
-}
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken
+};
