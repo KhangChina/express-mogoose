@@ -3,10 +3,7 @@ const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const userModel = require("../model/user");
 const router = express.Router();
-const {
-  userValidatorCreate,
-  userValidatorForgotPassword,
-} = require("../validators/user");
+const { userValidatorCreate } = require("../validators/user");
 
 router.get("/:id", async (req, res) => {
   try {
