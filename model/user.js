@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const roles = require("../config/roles");
-const locationTypes = require("../config/locationTypes")
+const locationTypes = require("../config/locationTypes");
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -35,7 +35,11 @@ const UserSchema = new mongoose.Schema(
         required: false,
       },
     },
+    refreshToken: {
+      type: String,
+    },
   },
+
   { timestamps: true }
 );
 

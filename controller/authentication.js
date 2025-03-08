@@ -13,11 +13,17 @@ router.post("/login", async (req, res) => {
   if (!isMatch) {
     return res.status(400).json({ message: "passwordIsIncorrect" });
   }
+  const refreshToken = generateRefreshToken(user);
+  await userModel.updateOne(
+    { _id: user._id },
+    { $set: { refreshToken: refreshToken } }
+  );
+
   res.json({
     message: "loginSuccess",
     data: {
       accessToken: generateAccessToken(user),
-      refreshToken: generateRefreshToken(user),
+      refreshToken: refreshToken,
     },
   });
 });
