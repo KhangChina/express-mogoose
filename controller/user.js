@@ -32,7 +32,6 @@ router.post("/", userValidatorCreate, async (req, res) => {
     return res.status(400).json({ message: "phoneIsUsed" });
   }
   //Step 2: Injection Password
-
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const newUser = new User({

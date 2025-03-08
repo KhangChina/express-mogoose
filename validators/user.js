@@ -5,9 +5,9 @@ const userValidatorCreate = [
     .notEmpty()
     .withMessage("nameIsRequired")
     .isString()
-    .withMessage("Tên phải là một chuỗi")
+    .withMessage("nameIsString")
     .isLength({ min: 3 })
-    .withMessage("Tên phải có ít nhất 3 ký tự"),
+    .withMessage("nameMinLength3"),
   body("phone")
     .isString()
     .matches(/^\d{10,11}$/)
@@ -15,7 +15,7 @@ const userValidatorCreate = [
   body("password")
     .isString()
     .isLength({ min: 6 })
-    .withMessage("Mật khẩu phải có ít nhất 6 ký tự")
+    .withMessage("passwordMinLength6")
     .notEmpty()
     .withMessage("passwordIsRequired"),
 ];
@@ -24,7 +24,7 @@ const userValidatorForgotPassword = [
   body("password")
     .isString()
     .isLength({ min: 6 })
-    .withMessage("Mật khẩu phải có ít nhất 6 ký tự")
+    .withMessage("passwordMinLength6")
     .notEmpty()
     .withMessage("passwordIsRequired"),
 ];
