@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const roles = require("../config/roles");
+const locationTypes = require("../config/locationTypes")
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -17,10 +19,15 @@ const UserSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+    role: {
+      type: String,
+      enum: Object.values(roles),
+      default: roles.staff,
+    },
     location: {
       type: {
         type: String,
-        enum: ["Point"], 
+        enum: Object.values(locationTypes),
         required: false,
       },
       coordinates: {

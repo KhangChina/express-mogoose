@@ -23,7 +23,7 @@ const userValidatorCreate = [
     .isObject()
     .withMessage("locationMustBeObject") 
     .custom((value) => {
-      if (value && value.type !== "Point") {
+      if (value && value.type !== "point") {
         throw new Error("locationTypeMustBePoint");
       }
       if (value && !Array.isArray(value.coordinates)) {
