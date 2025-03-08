@@ -17,8 +17,13 @@ function verifyRefreshToken(refreshToken) {
  return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 }
 
+function verifyAccessToken(accessToken) {
+  return jwt.verify(accessToken, process.env.JWT_SECRET);
+ }
+
 module.exports = {
   generateAccessToken,
   generateRefreshToken,
-  verifyRefreshToken
+  verifyRefreshToken,
+  verifyAccessToken
 };

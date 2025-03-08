@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const app = express();
 const userController = require("./controller/user");
 const authenticationController = require("./controller/authentication");
+const authMiddleware = require("./middleware/authMiddleware");
 async function bootstrap(argument) {
   try {
     //Step1: Connect DB
@@ -26,10 +27,8 @@ async function bootstrap(argument) {
       }
       next();
     });
-
     app.use("/api/v1/authentication", authenticationController);
-
-    app.use("/api/v1/users", userController);
+    app.use("/api/v1/users", authMiddleware, userController);
 
     //Step4: Start server
     const PORT = process.env.PORT || 5000;
