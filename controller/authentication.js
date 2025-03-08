@@ -2,13 +2,24 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const userModel = require("../model/user");
+const { validationResult } = require("express-validator");
 const {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken,
 } = require("../utility/jwt");
-router.post("/login", async (req, res) => {
+
+const {
+  loginValidator,
+  refreshTokenValidator,
+} = require("../validators/authentication");
+router.post("/login", loginValidator, async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { username, password } = req.body;
     const user = await userModel.findOne({ phone: username });
     if (!user) {
@@ -36,18 +47,20 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/refresh-token", async (req, res) => {
-  const { refreshToken } = req.body;
+router.post("/refresh-token", refreshTokenValidator, async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { refreshToken } = req.body;
     const decoded = verifyRefreshToken(refreshToken);
 
     const currentTime = Math.floor(Date.now() / 1000);
     if (decoded.exp < currentTime) {
       return res.status(403).json({ message: "refreshTokenHasExpired" });
     }
-
     const user = await userModel.findById(decoded.id);
-
     if (!user || user.refreshToken !== refreshToken) {
       return res.status(403).json({ message: "refreshTokenIsInvalid" });
     }

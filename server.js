@@ -18,6 +18,13 @@ async function bootstrap(argument) {
   app.get("/", (req, res) => {
     res.send("Welcome API");
   });
+  
+  app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+      return res.status(400).json({ message: "invalidJSONData" });
+    }
+    next();
+  });
 
   app.use("/api/v1/authentication", authenticationController);
 
