@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-
+const locationTypes = require("../config/locationTypes");
 const userValidatorCreate = [
   body("name")
     .notEmpty()
@@ -19,11 +19,15 @@ const userValidatorCreate = [
     .notEmpty()
     .withMessage("passwordIsRequired"),
   body("location")
-    .optional()  
+    .optional()
     .isObject()
-    .withMessage("locationMustBeObject") 
+    .withMessage("locationMustBeObject")
     .custom((value) => {
-      if (value && value.type !== "point") {
+      if (
+        value &&
+        (value.type !== locationTypes.point &&
+          value.type !== locationTypes.address)
+      ) {
         throw new Error("locationTypeMustBePoint");
       }
       if (value && !Array.isArray(value.coordinates)) {
@@ -43,7 +47,7 @@ const userValidatorCreate = [
         throw new Error("latitudeOutOfRange");
       }
       return true;
-    })
+    }),
 ];
 
 const userValidatorForgotPassword = [
