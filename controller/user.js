@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
-const User = require("../model/user");
+const user = require("../model/user");
 const router = express.Router();
 const {
   userValidatorCreate,
@@ -26,18 +26,19 @@ router.post("/", userValidatorCreate, async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, phone, password } = req.body;
-  const existingUser = await User.findOne({ phone });
+  const { name, phone, password,location } = req.body;
+  const existingUser = await user.findOne({ phone });
   if (existingUser) {
     return res.status(400).json({ message: "phoneIsUsed" });
   }
   //Step 2: Injection Password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
-  const newUser = new User({
+  const newUser = new user({
     name,
     phone,
     password: hashedPassword,
+    location
   });
   await newUser.save();
   res.status(201).json({ message: "registerSuccess", user: newUser });

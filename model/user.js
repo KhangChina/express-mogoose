@@ -17,8 +17,19 @@ const UserSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"], 
+        required: false,
+      },
+      coordinates: {
+        type: [Number],
+        required: false,
+      },
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("user", UserSchema);
