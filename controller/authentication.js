@@ -71,4 +71,18 @@ router.post("/refresh-token", refreshTokenValidator, async (req, res) => {
   }
 });
 
+router.post("/logout", refreshTokenValidator, async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { refreshToken } = req.body;
+    await userModel.updateOne({ refreshToken }, { refreshToken: null });
+    res.status(200).json({ message: "logoutSuccess" });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
 module.exports = router;
