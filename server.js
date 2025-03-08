@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const app = express();
 const userController = require("./controller/user");
-
+const authenticationController =  require ("./controller/authentication")
 async function bootstrap(argument) {
   //Step1: Connect DB
   await connectDB();
@@ -19,8 +19,9 @@ async function bootstrap(argument) {
     res.send("Hello Express + MongoDB API");
   });
 
+  app.use("/api/v1/authentication", authenticationController);
+
   app.use("/api/v1/users", userController);
-  //app.use("/api/v1/roles", roleRoutes);
 
   //Step4: Start server
   const PORT = process.env.PORT || 5000;
