@@ -1,0 +1,33 @@
+# Node.js modules
+node_modules/
+
+# Thư mục log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# File môi trường
+.env
+
+# Các file hệ thống và IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Các file build và dist
+/dist/
+/build/
+
+# Các file của test coverage
+coverage/
+
+# Các file tạm thời khi chạy ứng dụng
+*.log
+
+# Các file của OS
+*.swp
+*.swo
+
+# Các file tạm thời khác
+*.tgz
